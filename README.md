@@ -1,0 +1,1 @@
+# Horizonte Entregas — Web + Android\n\n`web/` contém o projeto web original. `android/` contém o app Android com WebView e estrutura FCM. Leia [ANDROID-SETUP.md](ANDROID-SETUP.md): notificações reais exigem configuração Firebase e backend emissor.\n

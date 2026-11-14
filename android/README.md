@@ -1,0 +1,1 @@
+# Projeto Android\nVeja `../ANDROID-SETUP.md` para configuração do Firebase, compilação e publicação.\n
