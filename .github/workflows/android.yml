@@ -15,13 +15,14 @@ permissions:
 
 jobs:
   build:
+    name: Gerar APK Android
     runs-on: ubuntu-latest
 
     steps:
       - name: Baixar codigo
         uses: actions/checkout@v4
 
-      - name: Configurar Java
+      - name: Configurar Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -29,22 +30,32 @@ jobs:
 
       - name: Configurar Android SDK
         uses: android-actions/setup-android@v3
-                with:
-          packages: |
-            platform-tools
-            platforms;android-35
-            build-tools;35.0.0
+
+      - name: Instalar componentes Android
+        run: |
+          sdkmanager "platform-tools"
+          sdkmanager "platforms;android-35"
+          sdkmanager "build-tools;35.0.0"
+
       - name: Configurar Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.9"
 
+      - name: Verificar arquivos do projeto
+        run: |
+          test -f android/settings.gradle
+          test -f android/build.gradle
+          test -f android/app/build.gradle
+          test -f android/app/src/main/AndroidManifest.xml
+
       - name: Gerar APK
         working-directory: android
         run: gradle --no-daemon assembleDebug
 
-      - name: Salvar APK
+      - name: Publicar APK
         uses: actions/upload-artifact@v4
         with:
-          name: horizonte-entregas-apk
+          name: Horizonte-Entregas-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
